@@ -1,64 +1,83 @@
         let calculator = document.querySelector(".calculator");
-        let result = document.querySelector(".result");
         let cleanBtn = document.querySelector(".cleanBtn");
-        
+        let result = document.querySelector(".result");
         let num1 = null;
         let num2 = null;
         let operator = null;
         
+
         calculator.addEventListener('click', evt => {
             if (evt.target.matches('.number')) {
-                result.value += evt.target.value; // Добавление числа в результат
+                result.value += evt.target.value;
+                toggleDecimalButton();
+            } else if (evt.target.matches('#decimal')) {
+                if (!result.value.includes('.')) {
+                    result.value += '.';
+                }
+                toggleDecimalButton();
             } else if (evt.target.matches('.action')) {
                 if (evt.target.value === '=') {
                     if (num1 !== null && operator !== null) {
                         num2 = parseFloat(result.value);
-                        result.value = operate(num1, operator, num2); // Вычисление результата
-                        num1 = null; // Сброс после вычисления
-                        operator = null; // Сброс после вычисления
+                        result.value = operate(num1, operator, num2);
+                        num1 = null;
+                        operator = null;
                     }
-                } else if (evt.target.value === "C" || evt.target.classList.contains(".cleanBtn")) {
-                    result.value = ''; // Очистка результата
-                    num1 = null; // Сброс первого числа
-                    num2 = null; // Сброс второго числа
-                    operator = null; // Сброс оператора
+                } else if (evt.target.value === "CLEAN" || evt.target.classList.contains("cleanBtn")) {
+                    result.value = '';
+                    num1 = null;
+                    num2 = null;
+                    operator = null;
+                    toggleDecimalButton();
+                } else if (evt.target.value === "DEL") {
+                    deleteLast();
                 } else {
                     if (num1 === null) {
                         num1 = parseFloat(result.value);
                     } else {
                         num2 = parseFloat(result.value);
-                        result.value = operate(num1, operator, num2); // Вычисление при новом операторе
-                        num1 = parseFloat(result.value); // Сохранение результата как первого числа
+                        result.value = operate(num1, operator, num2);
+                        num1 = parseFloat(result.value);
                     }
-                    operator = evt.target.value; // Установка оператора
-                    result.value = ''; // Очистка для следующего ввода
+                    operator = evt.target.value;
+                    result.value = '';
                 }
             }
         });
 
+        function deleteLast() {
+            result.value = result.value.slice(0, -1);
+            toggleDecimalButton();
+        }
 
-function operate(num1, operator, num2) {
-            switch (operator) {
-                case '+':
-                    return num1 + num2;
-                case '-':
-                    return num1 - num2;
-                case '*':
-                    return num1 * num2;
-                case '/':
-                    return num2 !== 0 ? num1 / num2 : "Делить на ноль нельзя!";
-                default:
-                    return "Ошибка: Недопустимый оператор";
+        function toggleDecimalButton() {
+            const decimalButton = document.querySelector('#decimal');
+            if (result.value.includes('.')) {
+                decimalButton.disabled = true;
+            } else {
+                decimalButton.disabled = false;
             }
+        }
+
+        function operate(num1, operator, num2) {
+            switch (operator) {
+             case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                return num2 !== 0 ? num1 / num2 : 'Ошибка';
+            default:
+                return '';
+          }
         }
 
 
 
 
-
-
-        
-    /// АНИМАЦИЯ
+    /// ДАЛЬШЕ АНИМАЦИЯ!!!
 
         const canvas = document.createElement("canvas");
 const body = document.querySelector("body");

@@ -84,4 +84,5 @@ body {
     box-shadow: inset 0px 4px 0px 0px rgba(103,84,139,1);
     background-color: #67548b;
     background-color: #7df9ff;
+    outline: none;
   }

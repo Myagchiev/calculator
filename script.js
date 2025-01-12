@@ -68,7 +68,7 @@
             case '*':
                 return num1 * num2;
             case '/':
-                return num2 !== 0 ? num1 / num2 : 'Ошибка';
+                return num2 !== 0 ? num1 / num2 : 'На ноль делить нельзя!';
             default:
                 return '';
           }
